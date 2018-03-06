@@ -18,13 +18,12 @@ formulario = """
 class contentApp(webapp.webApp):
 
 	def parse(self,request):
-		return (request.split()[0], request.split()[1], request)  
-#cojo metodo[0], recurso[1] y cuerpo [donde encontremos doble linea en blanco por primera vez[0=cabeceras,1=cuerpo]]
+		return (request.split()[0], request.split()[1], request) #cojo metodo[0], recurso[1] y peticion
 
 	def process(self, parsedRequest):
 		metodo, recurso, peticion = parsedRequest
 		if metodo == "POST":
-			cuerpo = peticion.split('\r\n\r\n',1)[1]
+			cuerpo = peticion.split('\r\n\r\n',1)[1] #donde encontremos doble linea en blanco por primera vez[0=cabeceras,1=cuerpo]
 			contents[recurso] = cuerpo.split('=')[1]
 			return("200 OK","<html>" + contents[recurso] + "</html>")
 		else: #si hago metodo=="GET"
